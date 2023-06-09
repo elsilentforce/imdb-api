@@ -1,4 +1,5 @@
 class Note < ApplicationRecord
+  validates_uniqueness_of :imdb_id
 
   def has_comments?
     self.watched && self.comment

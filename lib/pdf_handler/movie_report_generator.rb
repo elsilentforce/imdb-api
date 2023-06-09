@@ -17,7 +17,7 @@ module PdfHandler
     
     def generate_file
       doc = Prawn::Document.new
-      doc.image open(@movie['Poster']) if @movie['Poster']
+      doc.image URI.open(@movie['Poster']) if @movie['Poster']
       doc.text "
         Movie Title: #{@movie["Title"]}
         Year: #{@movie['Year']}

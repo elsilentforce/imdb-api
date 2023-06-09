@@ -14,7 +14,7 @@ class MovieSearcher < MovieService
   private
 
   def search_from_api
-    response = begin 
+    response = begin
       RestClient::Request.execute(method: :get, url: @url)
     rescue
       DEFAULT_ERROR_RESPONSE

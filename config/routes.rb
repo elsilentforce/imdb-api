@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   resources :movies, only: :show
   get 'movies/search/:title', to: 'movies#search'
+  get 'notes/create/:imdb_id/:status', to: 'notes#create'
   get 'test_job', to: 'movies#test_job'
 
   resources :notes, only: :create

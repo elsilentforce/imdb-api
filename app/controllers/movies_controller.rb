@@ -5,8 +5,8 @@ class MoviesController < ApplicationController
   def show
     response = MovieFinder.call(params[:id])
     response.merge!(
-      "save_watched" => "/notes/save/#{ params[:id] }/watched",
-      "save_unwatched" => "/notes/save/#{ params[:id] }/unwatched"
+      "save_watched" => "/notes/create/#{ params[:id] }/watched",
+      "save_unwatched" => "/notes/create/#{ params[:id] }/unwatched"
     )
     render json: response
   end
