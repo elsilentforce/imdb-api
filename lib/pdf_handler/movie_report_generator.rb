@@ -18,14 +18,16 @@ module PdfHandler
     def generate_file
       doc = Prawn::Document.new
       doc.image URI.open(@movie['Poster']) if @movie['Poster']
-      doc.text "
-        Movie Title: #{@movie["Title"]}
+
+      doc.text "Movie Info:", style: :bold
+      doc.text "Title: #{@movie["Title"]}
         Year: #{@movie['Year']}
         Genre: #{@movie['Genre']}
       "
 
       if @note.present?
-        doc.text "You have #{@note.status} this movie.", :strong
+        doc.text "Personal Comments:", style: :bold
+        doc.text "You have #{@note.status} this movie."
         doc.text "Personal rating: #{@note.raiting} Stars" if @note.has_ratings?
         doc.text "Personal comment: #{@note.comment}" if @note.has_comments?
       end
