@@ -2,8 +2,8 @@ class SearchCacheWriter < ApplicationService
   # Writes Search cache based on given term and result
 
   def initialize(term:, result:)
-    @term = term
     @result = result
+    @term = term
   end
 
   def call

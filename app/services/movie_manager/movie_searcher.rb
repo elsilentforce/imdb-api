@@ -2,9 +2,9 @@ class MovieSearcher < MovieService
   # Search movies by Title
 
   def initialize(title)
+    @cached_search = SearchCacheReader.call(title)
     @term = title
     @url = "#{BASE_PATH}&s=#{title}"
-    @cached_search = SearchCacheReader.call(title)
   end
 
   def call

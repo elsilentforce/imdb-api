@@ -63,5 +63,9 @@ Rails.application.configure do
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
 
+  # Cache config
   config.cache_store = :redis_cache_store, { url: "redis://localhost:6379/0", expires_in: 2.hour }
+
+  # Domain for mailer urls
+  config.action_mailer.default_url_options = { host: 'localhost:3000' }
 end

@@ -1,8 +1,12 @@
 module PdfHandler
   class MovieReportGenerator < PdfLib
-    # Generates a PDF file using a Movie object
-    def initialize(movie)
+    # Generates a PDF file using a Movie object and personal Notes (Optional)
+
+    require 'open-uri'
+    
+    def initialize(movie: ,note: nil)
       @movie = movie
+      @note = note
     end
 
     def call
@@ -13,18 +17,25 @@ module PdfHandler
     
     def generate_file
       doc = Prawn::Document.new
+      doc.image open(@movie['Poster']) if @movie['Poster']
       doc.text "
         Movie Title: #{@movie["Title"]}
         Year: #{@movie['Year']}
         Genre: #{@movie['Genre']}
       "
-      doc.render_file "aaaa #{custom_timestamp}.pdf"
-    end
 
-    def custom_timestamp
-      Time.now.strftime("%Y%m%d_%H%M%S")
+      if @note.present?
+        doc.text "You have #{@note.status} this movie.", :strong
+        doc.text "Personal rating: #{@note.raiting} Stars" if @note.has_ratings?
+        doc.text "Personal comment: #{@note.comment}" if @note.has_comments?
+      end
+
+      Tempfile.create do |f|
+        doc.render_file f
+        f.flush
+        File.read f
+      end
     end
-    
 
   end
 end
