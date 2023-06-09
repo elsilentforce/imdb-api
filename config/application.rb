@@ -27,5 +27,11 @@ module ImdbApi
     config.autoload_paths += Dir[Rails.root.join('app', 'services', '**/')]
     config.autoload_paths << Rails.root.join("lib")
     config.eager_load_paths << Rails.root.join("lib")
+
+    config.session_store :cookie_store, key: '_interslice_session'
+
+    config.middleware.use ActionDispatch::Cookies
+
+    config.middleware.use config.session_store, config.session_options
   end
 end

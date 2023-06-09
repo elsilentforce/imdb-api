@@ -17,4 +17,11 @@ class MoviesController < ApplicationController
     render json: response
   end
 
+  def test_job
+    movie = MovieFinder.call('tt0126029')
+    email = 'native.devil@gmail.com'
+    # MovieDetailMailerJob.perform_now(recipient: email, movie: movie)
+    render json: { message: 'ok' }, status: :ok
+  end
+
 end
