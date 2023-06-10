@@ -11,16 +11,9 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_06_07_153020) do
-  create_table "libraries", force: :cascade do |t|
-    t.string "imdb_id"
-    t.integer "stars"
-    t.string "comment"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "notes", force: :cascade do |t|
     t.string "imdb_id", null: false
+    t.string "title", null: false
     t.integer "raiting"
     t.boolean "watched", default: false
     t.string "comment"

@@ -1,7 +1,13 @@
 class NotesController < ApplicationController
 
+  def index
+    @notes = Note.all
+    render json: @notes
+  end
+
   def create
-    @note = Note.new(imdb_id: params[:imdb_id], watched: set_status)
+    @movie = MovieFinder.call(params[:imdb_id])
+    @note = Note.new(imdb_id: params[:imdb_id], title: @movie['Title'], watched: set_status)
     if @note.save
       render json: { message: 'Comments saved!' }, status: :ok
     elsif @note.errors.any?
