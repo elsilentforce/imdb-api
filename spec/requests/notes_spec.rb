@@ -41,7 +41,7 @@ describe 'Notes API' do
   path '/notes/{imbd_id}' do
     
     path '/notes/{imdb_id}' do
-      put 'Updates a personal Note' do
+      patch 'Updates a personal Note' do
         tags 'Notes'
         consumes 'application/json'
         produces 'application/json'
