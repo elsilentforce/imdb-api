@@ -1,0 +1,71 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/movies/search/{title}":
+    get:
+      summary: Search movies by Title into OMDB API
+      tags:
+      - Movies
+      parameters:
+      - name: title
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: search result
+  "/movies/{imdb_id}":
+    get:
+      summary: Retrieves a Movie by its IMDB ID
+      tags:
+      - Movies
+      parameters:
+      - name: imdb_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Movie details
+  "/notes":
+    get:
+      summary: List all your personal notes
+      tags:
+      - Notes
+      responses:
+        '200':
+          description: Personal notes list
+  "/notes/{id}":
+    patch:
+      summary: Updates an specific note (can be used to add custom comments)
+      tags:
+      - Notes
+      parameters:
+      - name: id
+        in: path
+        required: true
+      responses:
+        '200':
+          description: Note updated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: boolean
+            examples:
+              movie comment example:
+                summary: A 5 Stars Comment example
+                value:
+                  watched: true
+                  raiting: 5
+                  comment: Excelent movie!
+servers:
+- url: http://localhost:3000
+  variables:
+    defaultHost:
+      default: http://localhost:3000

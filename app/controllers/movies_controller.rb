@@ -5,11 +5,7 @@ class MoviesController < ApplicationController
   def show
     imdb_id = params[:id]
     response = MovieFinder.call(imdb_id)
-    response.merge!(
-      "save_watched" => "/notes/create/#{imdb_id}?watched=true",
-      "save_unwatched" => "/notes/create/#{imdb_id}/?watched=false",
-      "send_pdf_by_email" => "/movies/email_pdf/#{imdb_id}"
-    )
+    response.merge!("send_pdf_by_email" => "/movies/email_pdf/#{imdb_id}")
     render json: response
   end
 
