@@ -19,7 +19,7 @@ class NotesController < ApplicationController
   def update
     if @note.nil?
       render json: { message: 'Note not found, couldn\'t update' }, status: :not_found
-    elsif @note.save
+    elsif @note.update(note_params)
       render json: { message: 'Note updated!' }, status: :ok
     else
       render json: { error: @note.errors.full_messages.first }, status: :unauthorized
