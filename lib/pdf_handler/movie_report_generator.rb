@@ -17,7 +17,7 @@ module PdfHandler
     
     def generate_file
       doc = Prawn::Document.new
-      doc.image URI.open(@movie['Poster']) if @movie['Poster']
+      doc.image URI.open(@movie['Poster']) if @movie['Poster'];
 
       doc.text "Movie Info:", style: :bold
       doc.text "Title: #{@movie["Title"]}
@@ -28,10 +28,11 @@ module PdfHandler
       if @note.present?
         doc.text "Personal Comments:", style: :bold
         doc.text "You have #{@note.status} this movie."
-        doc.text "Personal rating: #{@note.raiting} Stars" if @note.has_ratings?
-        doc.text "Personal comment: #{@note.comment}" if @note.has_comments?
+        doc.text "Personal rating: #{@note.raiting} Stars" if @note.has_ratings?;
+        doc.text "Personal comment: #{@note.comment}" if @note.has_comments?;
       end
 
+      # TODO: MOVE THIS FILE GENERATION TO S3 STORAGE OR SIMILAR
       Tempfile.create do |f|
         doc.render_file f
         f.flush

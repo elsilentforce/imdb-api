@@ -3,10 +3,12 @@
 class MoviesController < ApplicationController
 
   def show
-    response = MovieFinder.call(params[:id])
+    imdb_id = params[:id]
+    response = MovieFinder.call(imdb_id)
     response.merge!(
-      "save_watched" => "/notes/create/#{ params[:id] }/watched",
-      "save_unwatched" => "/notes/create/#{ params[:id] }/unwatched"
+      "save_watched" => "/notes/create/#{imdb_id}?watched=true",
+      "save_unwatched" => "/notes/create/#{imdb_id}/?watched=false",
+      "send_pdf_by_email" => "/movies/email_pdf/#{imdb_id}"
     )
     render json: response
   end
@@ -17,11 +19,14 @@ class MoviesController < ApplicationController
     render json: response
   end
 
-  def test_job
-    movie = MovieFinder.call('tt0126029')
-    email = 'native.devil@gmail.com'
-    # MovieDetailMailerJob.perform_now(recipient: email, movie: movie)
-    render json: { message: 'ok' }, status: :ok
+  def send_pdf_email   
+    begin
+      movie = MovieFinder.call(params[:imdb_id])
+      MovieDetailMailerJob.perform_async(recipient: 'app_user@some_email.domain', movie: movie)
+      render json: { message: 'Email sent!' }, status: :ok
+    rescue => e
+      render json: { error: e.to_s }, status: :internal_server_error
+    end
   end
 
 end

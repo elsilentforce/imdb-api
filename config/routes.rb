@@ -9,11 +9,8 @@ Rails.application.routes.draw do
 
   resources :movies, only: :show
   get 'movies/search/:title', to: 'movies#search'
+  get 'movies/email_pdf/:imdb_id', to: 'movies#send_pdf_email'
   resources :notes, only: :index
-  # This should be a POST request, using GET just for the example
-  get 'notes/create/:imdb_id/:status', to: 'notes#create'
-  get 'test_job', to: 'movies#test_job'
-
-  resources :notes, only: :create
+  get 'notes/create/:imdb_id/', to: 'notes#create' # This should be a POST, using GET just for the example
 
 end
