@@ -1,5 +1,3 @@
-# TODO: ADD VERSIONED CONTROLLERS AND ROUTES
-
 class MoviesController < ApplicationController
 
   def show

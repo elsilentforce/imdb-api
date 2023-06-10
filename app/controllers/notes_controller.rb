@@ -1,5 +1,4 @@
 class NotesController < ApplicationController
-  before_action :set_movie, only: :create
   before_action :set_note, only: :update
 
   def index
@@ -9,20 +8,21 @@ class NotesController < ApplicationController
 
   def create
     @note = Note.new(note_params)
-    @note.title = @movie['Title']
 
     if @note.save
       render json: { message: 'Successfully saved!' }, status: :ok
     elsif @note.errors.any?
-      render json: { error: @note.errors.full_messages.first }, status: :internal_server_error
+      render json: { error: @note.errors.full_messages.first }, status: :unauthorized
     end
   end
 
   def update
-    if @note.save
-      render json: { message: 'Successfully updated!' }, status: :ok
+    if @note.nil?
+      render json: { message: 'Note not found, couldn\'t update' }, status: :not_found
+    elsif @note.save
+      render json: { message: 'Note updated!' }, status: :ok
     else
-      render json: { error: @note.errors.full_messages.first }, status: :internal_server_error
+      render json: { error: @note.errors.full_messages.first }, status: :unauthorized
     end
   end
 
@@ -32,15 +32,7 @@ class NotesController < ApplicationController
     params.permit(:imdb_id, :title, :raiting, :watched, :comment, :status)
   end
 
-  def set_status
-    note_params[:status].eql? 'watched'
-  end
-
-  def set_movie
-    @movie = MovieFinder.call(params[:imdb_id])
-  end
-
   def set_note
-    @note = note.find_by(imdb_id: note_params[:imdb_id])
+    @note = Note.find_by(imdb_id: params[:id])
   end
 end

@@ -40,26 +40,53 @@ paths:
       responses:
         '200':
           description: Personal notes list
-  "/notes/{id}":
-    patch:
-      summary: Updates an specific note (can be used to add custom comments)
+    post:
+      summary: Creates a new Personal Note
+      tags:
+      - Notes
+      parameters: []
+      responses:
+        '200':
+          description: Personal Note created
+        '401':
+          description: IMDB ID has already been taken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+            examples:
+              unwatched_movie_save:
+                summary: A default save to local Notes as Unwatched
+                value:
+                  imdb_id: tt0126029
+                  title: Shrek
+                  watched: false
+                  raiting:
+                  comment:
+        required: true
+  "/notes/{imdb_id}":
+    put:
+      summary: Updates a personal Note
       tags:
       - Notes
       parameters:
-      - name: id
+      - name: imdb_id
         in: path
         required: true
+        schema:
+          type: string
       responses:
         '200':
-          description: Note updated
+          description: Movie details
       requestBody:
         content:
           application/json:
             schema:
               type: boolean
             examples:
-              movie comment example:
-                summary: A 5 Stars Comment example
+              5_stars_comment:
+                summary: 5 Stars Comment
                 value:
                   watched: true
                   raiting: 5
