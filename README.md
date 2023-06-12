@@ -9,7 +9,17 @@ Since this API uses some background jobs and implements some cache operations, y
 * Redis Server
 
 ## How to run
-This API can be started jus executing:
+This API can be started just executing the following commands:
+
+For Redis server:
+```
+redis-server
+```
+Once the server is running you can start Sidekiq for watching background queues (such as email sending) with:
+```
+bundle exec sidekiq
+```
+Once both previous services are running, you can start the API by executing:
 ```
 rails s
 ```
